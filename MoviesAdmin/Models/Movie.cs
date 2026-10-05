@@ -6,16 +6,24 @@ namespace MoviesAdmin.Models
 	{
 		public int ID { get; set; };
 
+		[Required]
 		public string Title { get; set; } = string.Empty;
 
-		public string Synopsis { get; set; } = string.Empty;
+        [Required]
+        public string Synopsis { get; set; } = string.Empty;
 
-		public string Genre { get; set; } = string.Empty;
+        [Required]
+        public string Genre { get; set; } = string.Empty;
 
-		public string Director { get; set; } = string.Empty;
+        [Required]
+        public string Director { get; set; } = string.Empty;
 
-		public TimeSpan RunTime { get; set; };
+        [Display(nameof = "Run Time (Minutes)")]
+        [Required]
+        public int RunTime { get; set; };
 
-		public DateTime ReleaseDate { get; set; };
+        [DisplayFormat(DataFormatString = "{0:MMM d, yyyy")]
+        [Required]
+        public DateTime ReleaseDate { get; set; };
 	}
 }
