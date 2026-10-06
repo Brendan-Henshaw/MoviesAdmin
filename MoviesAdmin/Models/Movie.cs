@@ -1,13 +1,12 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace MoviesAdmin.Models
 {
 	public class Movie
 	{
-		public int ID { get; set; }
+		public int ID { get; set; };
 
-        [Required]
+		[Required]
 		public string Title { get; set; } = string.Empty;
 
         [Required]
@@ -19,12 +18,12 @@ namespace MoviesAdmin.Models
         [Required]
         public string Director { get; set; } = string.Empty;
 
-        [Display(Name = "Run Time (Minutes)")]
+        [Display(nameof = "Run Time (Minutes)")]
         [Required]
-        public int RunTime { get; set; }
+        public int RunTime { get; set; };
 
-        [DisplayFormat(DataFormatString = "{0:MMM d, yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:MMM d, yyyy")]
         [Required]
-        public DateTime ReleaseDate { get; set; } = DateTime.Now;
+        public DateTime ReleaseDate { get; set; };
 	}
 }
