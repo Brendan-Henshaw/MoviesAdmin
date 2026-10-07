@@ -19,6 +19,24 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #171717;
+}
+
+.navbar {
+    background-color: #171717;
+}
+
+a {
+    color: #72A0C1;
+}
+
+.form-group {
+    padding-bottom: 8px;
+    padding-top: 8px;
+}
+
+.control-label {
+    padding-bottom: 8px;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
