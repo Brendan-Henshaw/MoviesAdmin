@@ -7,7 +7,7 @@ namespace MoviesAdmin.Models
 	{
 		public int ID { get; set; }
 
-        [Required]
+		[Required]
 		public string Title { get; set; } = string.Empty;
 
         [Required]

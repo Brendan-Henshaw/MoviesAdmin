@@ -15,11 +15,11 @@ public class MoviesController : Controller
     // GET: MOVIES
     public async Task<IActionResult> Index()    
     {
-        var moviesSorted = await _context.Movie
-            .OrderByDescending(mov => mov.ReleaseDate)
+        var moviesSort = await _context.Movie
+            .OrderByDescending(moviesSort => moviesSort.ReleaseDate)
             .ToListAsync();
 
-        return View(moviesSorted);
+        return View(moviesSort);
     }
 
     // GET: MOVIES/Details/5
