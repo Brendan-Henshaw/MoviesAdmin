@@ -23,7 +23,7 @@ namespace MoviesAdmin.Models
         [Required]
         public int RunTime { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:MMM d, yyyy")]
+        [DisplayFormat(DataFormatString = "{0:MMM d, yyyy}")]
         [Required]
         public DateTime ReleaseDate { get; set; } = DateTime.Now;
 	}
