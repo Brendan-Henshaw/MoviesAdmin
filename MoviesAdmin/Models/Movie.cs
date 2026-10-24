@@ -26,5 +26,7 @@ namespace MoviesAdmin.Models
         [DisplayFormat(DataFormatString = "{0:MMM d, yyyy}")]
         [Required]
         public DateTime ReleaseDate { get; set; } = DateTime.Now;
+
+        public string ImageUrl { get; set; } = string.Empty;
 	}
 }

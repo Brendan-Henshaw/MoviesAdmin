@@ -2,14 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesAdmin.Models;
+using MoviesAdmin.Services;
 
 public class MoviesController : Controller
 {
     private readonly MoviesAdminContext _context;
+    private readonly AzureStorageService _azureStorage;
 
-    public MoviesController(MoviesAdminContext context)
+    public MoviesController(MoviesAdminContext context, AzureStorageService azureStorage)
     {
         _context = context;
+        _azureStorage = azureStorage;
     }
 
     // GET: MOVIES
@@ -51,12 +54,25 @@ public class MoviesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Title,Synopsis,Genre,Director,RunTime,ReleaseDate")] Movie movie)
+    public async Task<IActionResult> Create([Bind("ID,Title,Synopsis,Genre,Director,RunTime,ReleaseDate")] Movie movie, IFormFile? ImageUpload)
     {
+        if (ImageUpload == null)
+        {
+            ModelState.AddModelError("ImageUpload", "Image file is required.");
+        }
+
         if (ModelState.IsValid)
         {
+            string extension = Path.GetExtension(ImageUpload!.FileName);
+            string newFileName = $"{Guid.NewGuid()}{extension}";
+
+            string url = await _azureStorage.UploadFileAsync(ImageUpload, newFileName);
+
+            movie.ImageUrl = url;
+
             _context.Add(movie);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
         return View(movie);
@@ -83,7 +99,7 @@ public class MoviesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,Synopsis,Genre,Director,RunTime,ReleaseDate")] Movie movie)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,Synopsis,Genre,Director,RunTime,ReleaseDate,ImageUrl")] Movie movie)
     {
         if (id != movie.ID)
         {
