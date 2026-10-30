@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MoviesAdmin.Models
@@ -13,11 +14,26 @@ namespace MoviesAdmin.Models
         [Required]
         public string Synopsis { get; set; } = string.Empty;
 
-        [Required]
-        public string Genre { get; set; } = string.Empty;
+        // FOREIGN KEY
+        [Display(Name = "Genre")]
+        public int GenreID { get; set; }
 
+        [ValidateNever]
+        public Genre Genre { get; set; } = null!;
+
+        // FOREIGN KEY
+        [Display(Name = "Rating")]
+        public int RatingID {  get; set; }
+
+        [ValidateNever]
+        public AudienceRating AudienceRating { get; set; } = null!;
+
+        // FOREIGN KEY
         [Required]
-        public string Director { get; set; } = string.Empty;
+        public int DirectorID { get; set; }
+
+        [ValidateNever]
+        public Director Director { get; set; } = null!;
 
         [Display(Name = "Run Time (Minutes)")]
         [Required]
