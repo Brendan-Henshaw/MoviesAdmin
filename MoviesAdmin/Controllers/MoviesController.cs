@@ -19,7 +19,10 @@ public class MoviesController : Controller
     // GET: MOVIES
     public async Task<IActionResult> Index()    
     {
-        var moviesSort = await _context.Movie
+        List<Movie> moviesSort = await _context.Movie
+            .Include(m => m.Genre)
+            .Include(m => m.AudienceRating)
+            .Include(m => m.Director)
             .OrderByDescending(moviesSort => moviesSort.ReleaseDate)
             .ToListAsync();
 
@@ -35,6 +38,9 @@ public class MoviesController : Controller
         }
 
         var movie = await _context.Movie
+            .Include(m => m.Genre)
+            .Include(m => m.AudienceRating)
+            .Include(m => m.Director)
             .FirstOrDefaultAsync(m => m.ID == id);
         if (movie == null)
         {
@@ -49,6 +55,10 @@ public class MoviesController : Controller
     {
         var genres = _context.Genre.ToList();
         ViewBag.GenreID = new SelectList(genres, "ID", "Title");
+        var ratings = _context.AudienceRating.ToList();
+        ViewBag.RatingID = new SelectList(ratings, "ID", "Title");
+        var directors = _context.Director.ToList();
+        ViewBag.DirectorID = new SelectList(directors, "ID", "Name");
 
         return View();
     }
@@ -58,7 +68,7 @@ public class MoviesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Title,Synopsis,RunTime,ReleaseDate")] Movie movie, IFormFile? ImageUpload)
+    public async Task<IActionResult> Create([Bind("ID,Title,Synopsis,RunTime,ReleaseDate,GenreID,RatingID,DirectorID")] Movie movie, IFormFile? ImageUpload)
     {
         if (ImageUpload == null)
         {
@@ -79,6 +89,14 @@ public class MoviesController : Controller
 
             return RedirectToAction(nameof(Index));
         }
+
+        var genres = _context.Genre.ToList();
+        ViewBag.GenreID = new SelectList(genres, "ID", "Title");
+        var ratings = _context.AudienceRating.ToList();
+        ViewBag.RatingID = new SelectList(ratings, "ID", "Title");
+        var directors = _context.Director.ToList();
+        ViewBag.DirectorID = new SelectList(directors, "ID", "Name");
+
         return View(movie);
     }
 
@@ -95,6 +113,14 @@ public class MoviesController : Controller
         {
             return NotFound();
         }
+
+        var genres = _context.Genre.ToList();
+        ViewBag.GenreID = new SelectList(genres, "ID", "Title");
+        var ratings = _context.AudienceRating.ToList();
+        ViewBag.RatingID = new SelectList(ratings, "ID", "Title");
+        var directors = _context.Director.ToList();
+        ViewBag.DirectorID = new SelectList(directors, "ID", "Name");
+
         return View(movie);
     }
 
@@ -103,7 +129,7 @@ public class MoviesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,Synopsis,RunTime,ReleaseDate,ImageUrl")] Movie movie)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,Synopsis,RunTime,ReleaseDate,ImageUrl,GenreID,RatingID,DirectorID")] Movie movie)
     {
         if (id != movie.ID)
         {
@@ -130,6 +156,14 @@ public class MoviesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
+
+        var genres = _context.Genre.ToList();
+        ViewBag.GenreID = new SelectList(genres, "ID", "Title");
+        var ratings = _context.AudienceRating.ToList();
+        ViewBag.RatingID = new SelectList(ratings, "ID", "Title");
+        var directors = _context.Director.ToList();
+        ViewBag.DirectorID = new SelectList(directors, "ID", "Name");
+
         return View(movie);
     }
 

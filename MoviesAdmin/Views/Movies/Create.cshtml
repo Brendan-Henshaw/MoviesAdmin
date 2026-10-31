@@ -25,7 +25,20 @@
                 <span asp-validation-for="Synopsis" class="text-danger"></span>
             </div>
 
+            <div class="form-group">
+                <label asp-for="GenreID" class="control-label"></label>
+                <select asp-for="GenreID" class="form-select" asp-items="ViewBag.GenreID"></select>
+            </div>
 
+            <div class="form-group">
+                <label asp-for="RatingID" class="control-label"></label>
+                <select asp-for="RatingID" class="form-select" asp-items="ViewBag.RatingID"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DirectorID" class="control-label"></label>
+                <select asp-for="DirectorID" class="form-select" asp-items="ViewBag.RatingID"></select>
+            </div>
 
             <div class="form-group">
                 <label asp-for="RunTime" class="control-label"></label>
