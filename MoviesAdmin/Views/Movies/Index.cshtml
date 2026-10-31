@@ -20,10 +20,13 @@
                 @Html.DisplayNameFor(model => model.Synopsis)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genre)
+                @Html.DisplayNameFor(model => model.GenreID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Director)
+                @Html.DisplayNameFor(model => model.AudienceRatingID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DirectorID)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RunTime)
@@ -47,10 +50,13 @@
                 @Html.DisplayFor(model => item.Synopsis)
             </td>
             <td>
-                @Html.DisplayFor(model => item.Genre)
+                @Html.DisplayFor(model => item.Genre.Title)
             </td>
             <td>
-                @Html.DisplayFor(model => item.Director)
+                @Html.DisplayFor(model => item.AudienceRating.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Director.Name)
             </td>
             <td>
                 @Html.DisplayFor(model => item.RunTime)

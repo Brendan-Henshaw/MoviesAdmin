@@ -26,15 +26,18 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Genre" class="control-label"></label>
-                <input asp-for="Genre" class="form-control" />
-                <span asp-validation-for="Genre" class="text-danger"></span>
+                <label asp-for="GenreID" class="control-label"></label>
+                <select asp-for="GenreID" class="form-select" asp-items="ViewBag.GenreID"></select>
             </div>
 
             <div class="form-group">
-                <label asp-for="Director" class="control-label"></label>
-                <input asp-for="Director" class="form-control" />
-                <span asp-validation-for="Director" class="text-danger"></span>
+                <label asp-for="AudienceRatingID" class="control-label"></label>
+                <select asp-for="AudienceRatingID" class="form-select" asp-items="ViewBag.AudienceRatingID"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DirectorID" class="control-label"></label>
+                <select asp-for="DirectorID" class="form-select" asp-items="ViewBag.DirectorID"></select>
             </div>
 
             <div class="form-group">
