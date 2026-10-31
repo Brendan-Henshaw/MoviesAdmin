@@ -40,7 +40,7 @@ namespace MoviesAdmin.Migrations
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
-                name: "RatingID",
+                name: "AudienceRatingID",
                 table: "Movie",
                 type: "int",
                 nullable: false,
@@ -174,7 +174,7 @@ namespace MoviesAdmin.Migrations
                 table: "Movie");
 
             migrationBuilder.DropColumn(
-                name: "RatingID",
+                name: "AudienceRatingID",
                 table: "Movie");
 
             migrationBuilder.AddColumn<string>(

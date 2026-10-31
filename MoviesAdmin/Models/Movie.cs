@@ -23,13 +23,13 @@ namespace MoviesAdmin.Models
 
         // FOREIGN KEY
         [Display(Name = "Rating")]
-        public int RatingID {  get; set; }
+        public int AudienceRatingID {  get; set; }
 
         [ValidateNever]
         public AudienceRating AudienceRating { get; set; } = null!;
 
         // FOREIGN KEY
-        [Required]
+        [Display(Name = "Director")]
         public int DirectorID { get; set; }
 
         [ValidateNever]

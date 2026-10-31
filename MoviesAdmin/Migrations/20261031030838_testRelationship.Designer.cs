@@ -96,7 +96,7 @@ namespace MoviesAdmin.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RatingID")
+                    b.Property<int>("AudienceRatingID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReleaseDate")
