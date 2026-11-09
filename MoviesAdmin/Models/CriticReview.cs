@@ -25,11 +25,10 @@ namespace MoviesAdmin.Models
         [Required]
         public bool IsPublished { get; set; }
 
-        [Required]
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; } = string.Empty;
 
-        [Required]
+        [ScaffoldColumn(false)]
         [Display(Name = "Created Date")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }

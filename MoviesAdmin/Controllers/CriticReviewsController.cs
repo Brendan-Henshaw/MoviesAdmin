@@ -1,9 +1,10 @@
 using MoviesAdmin;
+using MoviesAdmin.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
-using MoviesAdmin.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class CriticReviewsController : Controller
 {
@@ -27,7 +28,12 @@ public class CriticReviewsController : Controller
     // GET: CRITICREVIEWS
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.CriticReview.ToListAsync());
+        var reviews = await _context.CriticReview
+            .Where(m => m.CreatedBy == _userId)
+            .Include(h => h.Movie)
+            .ToListAsync();
+
+        return View(reviews);
     }
 
     // GET: CRITICREVIEWS/Details/5
@@ -39,6 +45,8 @@ public class CriticReviewsController : Controller
         }
 
         var criticreview = await _context.CriticReview
+            .Where(m => m.CreatedBy == _userId)
+            .Include(h => h.Movie)
             .FirstOrDefaultAsync(m => m.ID == id);
         if (criticreview == null)
         {
@@ -50,8 +58,10 @@ public class CriticReviewsController : Controller
 
     // GET: CRITICREVIEWS/Create
     [Authorize(Roles = "Critic")]
-    public IActionResult Create()
+    public IActionResult Create(int? movieId)
     {
+        ViewData["MovieId"] = new SelectList(_context.Movie, "ID", "Title", movieId);
+
         return View();
     }
 
@@ -61,15 +71,20 @@ public class CriticReviewsController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Critic")]
-    public async Task<IActionResult> Create([Bind("ID,MovieID,Movie,Description,Rating,IsPublished,CreatedBy,CreatedDate")] CriticReview criticreview)
+    public async Task<IActionResult> Create([Bind("ID,MovieID,Description,Rating,IsPublished")] CriticReview criticReview)
     {
+        criticReview.CreatedBy = _userId;
+
         if (ModelState.IsValid)
         {
-            _context.Add(criticreview);
+            _context.Add(criticReview);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        return View(criticreview);
+
+        ViewData["MovieId"] = new SelectList(_context.Movie, "ID", "Title", criticReview.MovieID);
+
+        return View(criticReview);
     }
 
     // GET: CRITICREVIEWS/Edit/5
@@ -81,11 +96,17 @@ public class CriticReviewsController : Controller
             return NotFound();
         }
 
-        var criticreview = await _context.CriticReview.FindAsync(id);
+        var criticreview = await _context.CriticReview
+            .Where(m => m.CreatedBy == _userId && m.IsPublished == false)
+            .FirstOrDefaultAsync(m => m.ID == id);
+
         if (criticreview == null)
         {
             return NotFound();
         }
+
+        ViewData["MovieId"] = new SelectList(_context.Movie, "ID", "Title", criticreview.MovieID);
+
         return View(criticreview);
     }
 
@@ -122,6 +143,9 @@ public class CriticReviewsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
+
+        ViewData["MovieId"] = new SelectList(_context.Movie, "ID", "Title", criticreview.MovieID);
+
         return View(criticreview);
     }
 
@@ -134,6 +158,8 @@ public class CriticReviewsController : Controller
         }
 
         var criticreview = await _context.CriticReview
+            .Where(m => m.CreatedBy == _userId)
+            .Include(h => h.Movie)
             .FirstOrDefaultAsync(m => m.ID == id);
         if (criticreview == null)
         {
@@ -149,12 +175,14 @@ public class CriticReviewsController : Controller
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
         var criticreview = await _context.CriticReview.FindAsync(id);
+
         if (criticreview != null)
         {
             _context.CriticReview.Remove(criticreview);
         }
 
         await _context.SaveChangesAsync();
+
         return RedirectToAction(nameof(Index));
     }
 
