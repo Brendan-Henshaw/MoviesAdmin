@@ -35,10 +35,15 @@ namespace MoviesAdmin.Models
         [ValidateNever]
         public Director Director { get; set; } = null!;
 
+        [ValidateNever]
+        [ScaffoldColumn(false)]
+        public List<CriticReview> CriticReviews { get; set;} = new List<CriticReview>();
+
         [Display(Name = "Run Time (Minutes)")]
         [Required]
         public int RunTime { get; set; }
 
+        [Display(Name = "Release Date")]
         [DisplayFormat(DataFormatString = "{0:MMM d, yyyy}")]
         [Required]
         public DateTime ReleaseDate { get; set; } = DateTime.Now;
