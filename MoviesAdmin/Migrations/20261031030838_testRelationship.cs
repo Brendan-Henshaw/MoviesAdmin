@@ -39,13 +39,6 @@ namespace MoviesAdmin.Migrations
                 nullable: false,
                 defaultValue: 0);
 
-            migrationBuilder.AddColumn<int>(
-                name: "AudienceRatingID",
-                table: "Movie",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.CreateTable(
                 name: "AudienceRating",
                 columns: table => new
