@@ -55,7 +55,8 @@ namespace MoviesAdmin.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<bool>("IsPublished")
                         .HasColumnType("bit");
@@ -156,7 +157,7 @@ namespace MoviesAdmin.Migrations
             modelBuilder.Entity("MoviesAdmin.Models.CriticReview", b =>
                 {
                     b.HasOne("MoviesAdmin.Models.Movie", "Movie")
-                        .WithMany()
+                        .WithMany("CriticReviews")
                         .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -204,6 +205,11 @@ namespace MoviesAdmin.Migrations
             modelBuilder.Entity("MoviesAdmin.Models.Genre", b =>
                 {
                     b.Navigation("Movies");
+                });
+
+            modelBuilder.Entity("MoviesAdmin.Models.Movie", b =>
+                {
+                    b.Navigation("CriticReviews");
                 });
 #pragma warning restore 612, 618
         }

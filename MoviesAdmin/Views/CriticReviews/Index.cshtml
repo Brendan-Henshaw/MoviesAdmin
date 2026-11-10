@@ -16,9 +16,6 @@
                 @Html.DisplayNameFor(model => model.MovieID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movie)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
@@ -40,10 +37,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(model => item.MovieID)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Movie)
+                @Html.DisplayFor(model => item.Movie.Title)
             </td>
             <td>
                 @Html.DisplayFor(model => item.Description)

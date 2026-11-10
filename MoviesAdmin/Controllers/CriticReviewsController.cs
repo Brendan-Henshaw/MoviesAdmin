@@ -75,6 +75,18 @@ public class CriticReviewsController : Controller
     {
         criticReview.CreatedBy = _userId;
 
+        bool userReviewed = await _context.CriticReview
+            .AnyAsync(r =>
+                r.MovieID == criticReview.MovieID &&
+                r.CreatedBy == _userId);
+
+        if (userReviewed)
+        {
+            ModelState.AddModelError(
+                "",
+                "You've Already Reviewed This Movie.");
+        }
+
         if (ModelState.IsValid)
         {
             _context.Add(criticReview);
