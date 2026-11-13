@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using MoviesAdmin.Models;
 using MoviesAdmin.Services;
 
+[Authorize]
 public class MoviesController : Controller
 {
     private readonly MoviesAdminContext _context;
@@ -135,7 +136,7 @@ public class MoviesController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,Synopsis,RunTime,ReleaseDate,ImageUrl,GenreID,AudienceRatingID,DirectorID")] Movie movie)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,Synopsis,RunTime,ReleaseDate,ImageUrl,GenreID,AudienceRatingID,DirectorID")] Movie movie, IFormFile? ImageUpload)
     {
         if (id != movie.ID)
         {
@@ -144,6 +145,10 @@ public class MoviesController : Controller
 
         if (ModelState.IsValid)
         {
+            if (ImageUpload != null)
+            {
+
+            }
             try
             {
                 _context.Update(movie);

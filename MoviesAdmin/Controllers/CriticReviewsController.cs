@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
+[Authorize]
 public class CriticReviewsController : Controller
 {
     private readonly MoviesAdminContext _context;
@@ -28,11 +29,12 @@ public class CriticReviewsController : Controller
     // GET: CRITICREVIEWS
     public async Task<IActionResult> Index()    
     {
-        var reviews = await _context.CriticReview
+
+            var reviews = await _context.CriticReview
             .Where(m => m.CreatedBy == _userId)
             .Include(h => h.Movie)
             .ToListAsync();
-
+        
         return View(reviews);
     }
 
@@ -128,7 +130,7 @@ public class CriticReviewsController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Critic")]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,MovieID,Movie,Description,Rating,IsPublished,CreatedBy,CreatedDate")] CriticReview criticreview)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,MovieID,Movie,Description,Rating,IsPublished,CreatedDate")] CriticReview criticreview)
     {
         if (id != criticreview.ID)
         {
@@ -170,7 +172,7 @@ public class CriticReviewsController : Controller
         }
 
         var criticreview = await _context.CriticReview
-            .Where(m => m.CreatedBy == _userId)
+            .Where(m => m.CreatedBy == _userId && m.IsPublished == false)
             .Include(h => h.Movie)
             .FirstOrDefaultAsync(m => m.ID == id);
         if (criticreview == null)
